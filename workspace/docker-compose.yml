@@ -1,0 +1,25 @@
+version: "3.1"
+services:
+
+    # 相关容器配置 
+  front_end:
+    image: registry.cn-hangzhou.aliyuncs.com/exam-c4/check-setting-web-nginx:v1.4
+    ports:
+      - '8183:80'
+
+  mysql57:
+    image: mysql:5.7
+    container_name: c4_mysql57
+    environment:
+        MYSQL_ROOT_PASSWORD: dzhelp_2020
+    restart: always
+    volumes:
+        - './database.sql:/docker-entrypoint-initdb.d/init.sql'
+    ports:
+      - '3306:3306'
+
+  redis:
+    image: redis
+    container_name: c4_redis
+    ports:
+      - '6379:6379'

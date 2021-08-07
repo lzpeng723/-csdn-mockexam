@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="6px" height="9px" viewBox="0 0 6 9" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>triangle1</title>
+    <g id="打卡规则设置（element）后端2.0" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="11打卡规则（未设置人员时）-添加人员【已完成】" transform="translate(-451.000000, -252.000000)" fill="#C0C4CC">
+            <g id="弹框" transform="translate(430.000000, 111.000000)">
+                <g id="left" transform="translate(20.000000, 135.000000)">
+                    <polygon id="triangle1" transform="translate(4.000000, 10.500000) rotate(90.000000) translate(-4.000000, -10.500000) " points="4 8 8 13 0 13"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
