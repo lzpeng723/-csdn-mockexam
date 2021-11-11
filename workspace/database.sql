@@ -629,14 +629,14 @@ CREATE TABLE `rel_rule_option` (
 -- Records of rel_rule_option
 -- ----------------------------
 BEGIN;
-INSERT INTO `rel_rule_option` VALUES ('19daa0b2dd7f11eb9ef4fa163e8c653e', '2f6e5deadd7711ebbd36fa163e8c653e', 1);
+INSERT INTO `rel_rule_option` VALUES ('19daa0b2dd7f11eb9ef4fa163e8c653e', '2f6e5deadd7711ebbd36fa163e8c653e', 0);
 INSERT INTO `rel_rule_option` VALUES ('19daa0b2dd7f11eb9ef4fa163e8c653e', 'b8da28d0dd3511ebba78fa163e8c653e', 1);
-INSERT INTO `rel_rule_option` VALUES ('19daa0b2dd7f11eb9ef4fa163e8c653e', 'c5557e1cdd3411eba965fa163e8c653e', 1);
-INSERT INTO `rel_rule_option` VALUES ('19daa0b2dd7f11eb9ef4fa163e8c653e', 'cfbfe4f8dd7711eb86c0fa163e8c653e', 1);
-INSERT INTO `rel_rule_option` VALUES ('74ad80c2dd5c11eba950fa163e8c653e', '2f6e5deadd7711ebbd36fa163e8c653e', 1);
+INSERT INTO `rel_rule_option` VALUES ('19daa0b2dd7f11eb9ef4fa163e8c653e', 'c5557e1cdd3411eba965fa163e8c653e', 2);
+INSERT INTO `rel_rule_option` VALUES ('19daa0b2dd7f11eb9ef4fa163e8c653e', 'cfbfe4f8dd7711eb86c0fa163e8c653e', 3);
+INSERT INTO `rel_rule_option` VALUES ('74ad80c2dd5c11eba950fa163e8c653e', '2f6e5deadd7711ebbd36fa163e8c653e', 0);
 INSERT INTO `rel_rule_option` VALUES ('74ad80c2dd5c11eba950fa163e8c653e', 'b8da28d0dd3511ebba78fa163e8c653e', 1);
-INSERT INTO `rel_rule_option` VALUES ('74ad80c2dd5c11eba950fa163e8c653e', 'c5557e1cdd3411eba965fa163e8c653e', 1);
-INSERT INTO `rel_rule_option` VALUES ('74ad80c2dd5c11eba950fa163e8c653e', 'cfbfe4f8dd7711eb86c0fa163e8c653e', 1);
+INSERT INTO `rel_rule_option` VALUES ('74ad80c2dd5c11eba950fa163e8c653e', 'c5557e1cdd3411eba965fa163e8c653e', 2);
+INSERT INTO `rel_rule_option` VALUES ('74ad80c2dd5c11eba950fa163e8c653e', 'cfbfe4f8dd7711eb86c0fa163e8c653e', 3);
 COMMIT;
 
 -- ----------------------------
