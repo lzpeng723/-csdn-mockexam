@@ -1,8 +1,28 @@
 version: "3.1"
 services:
-
-    # JDK8及以上版本
-
-
-    # MySQL5.7及以上版本
-
+  # 主容器
+  web:
+    build: .
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+  # JDK8及以上版本
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 9090:8080
+    depends_on:
+      - db
+  # MySQL5.7及以上版本
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_DATABASE: c4exam
+      MYSQL_USER: c4exam
+      MYSQL_PASSWORD: c4exam
+      MYSQL_RANDOM_ROOT_PASSWORD: yes

@@ -1,0 +1,40 @@
+plugins {
+    id 'java'
+    id 'war'
+}
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+group 'csdn.c4'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+repositories {
+    maven { url "https://maven.aliyun.com/nexus/content/groups/public/" }
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.slf4j:slf4j-api:1.7.33'
+    implementation 'cn.hutool:hutool-all:5.7.20'
+    implementation 'mysql:mysql-connector-java:8.0.28'
+    compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+    testImplementation 'junit:junit:4.11'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+war {
+    baseName 'c4exam'
+    version ''
+}

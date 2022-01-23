@@ -1,0 +1,79 @@
+html, body, #app {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: stretch;
+}
+
+.csdn-c4-header {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+}
+
+.csdn-c4-header-left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.csdn-c4-header-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.csdn-c4-header .csdn-c4-header-item {
+    cursor: pointer;
+}
+
+.csdn-c4-main {
+    width: 100%;
+}
+
+.csdn-c4-main img {
+    width: 100%;
+}
+
+.box-card {
+    cursor: pointer;
+    width: 250px;
+}
+
+/**
+ * 灰度样式
+ */
+.box-card-grayscale {
+    -webkit-filter: grayscale(100%); /* Chrome, Safari, Opera */
+    -moz-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    filter: grayscale(100%);
+    filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1.0);
+}
+
+/**
+ * 玻璃样式
+ */
+.box-card-blur {
+    -webkit-filter: blur(2px); /* Chrome, Safari, Opera */
+    -moz-filter: blur(2px);
+    -o-filter: blur(2px);
+    filter: blur(2px);
+    filter: progid:DXImageTransform.Microsoft.BasicImage(blur=2px);
+}
+
+/**
+ * 更新不完整的章节样式
+ */
+.loading {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+    transform: rotate(-45deg);
+    font-size: 50px;
+    color: red;
+    text-align: center;
+}
