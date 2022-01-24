@@ -27,7 +27,7 @@ docker-compose up -d
 - 在 docker 容器内启动数据库
   
   `docker run --name c4exam-mysql -e MYSQL_DATABASE=c4exam -e MYSQL_USER=c4exam -e MYSQL_PASSWORD=c4exam -e MYSQL_RANDOM_ROOT_PASSWORD=yes -d -p 3306:3306 mysql`
-- 因在 [`src/main/resources/db.setting`](./blob/master/src/main/resources/db.setting) 中配置了数据库连接 ip 为 `db`, 需要手动添加 `host` 配置 `db:数据库机器ip`
+- 因在 [`src/main/resources/db.setting`](./src/main/resources/db.setting) 中配置了数据库连接 ip 为 `db`, 需要手动添加 `host` 配置 `db:数据库机器ip`
 - 开发工具启动项目
 - 浏览器打开 http://{ip}:{port}/c4exam 访问项目
 
@@ -36,7 +36,7 @@ docker-compose up -d
 - 在 docker 容器内启动数据库
   
   `docker run --name c4exam-mysql -e MYSQL_DATABASE=c4exam -e MYSQL_USER=c4exam -e MYSQL_PASSWORD=c4exam -e MYSQL_RANDOM_ROOT_PASSWORD=yes -d -p 3306:3306 mysql`
-- 因在 [`src/main/resources/db.setting`](./blob/master/src/main/resources/db.setting) 中配置了数据库连接 ip 为 `db`, 需要手动添加 `host` 配置 `db:数据库机器ip`
+- 因在 [`src/main/resources/db.setting`](./src/main/resources/db.setting) 中配置了数据库连接 ip 为 `db`, 需要手动添加 `host` 配置 `db:数据库机器ip`
 - ```bash
     cd c4exam
     gradlew build war
