@@ -1,8 +1,11 @@
 ## 所需环境
 
 JDK 1.8+
+
 Tomcat 9
+
 Mysql 5.7+
+
 Idea
 
 ## 1 下载源码
