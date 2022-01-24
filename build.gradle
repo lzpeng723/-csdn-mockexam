@@ -9,10 +9,6 @@ group 'csdn.c4'
 version '1.0-SNAPSHOT'
 
 repositories {
-    mavenCentral()
-}
-
-repositories {
     maven { url "https://maven.aliyun.com/nexus/content/groups/public/" }
     mavenLocal()
     mavenCentral()
