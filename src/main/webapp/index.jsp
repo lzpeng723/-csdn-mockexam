@@ -42,7 +42,7 @@
             </div>
             <div class="csdn-c4-header-right">
                 <el-space wrap>
-                    <el-link :href="viewDbUrl" type="primary" target="_blank">点击查看数据库,密码 c4exam</el-link>
+                    <el-link :href="viewDbUrl" type="primary" target="_blank">点击查看数据库,密码 csdn-mockexam-c4-javabase</el-link>
                     <el-button
                             v-loading.fullscreen.lock="fullscreenLoading"
                             element-loading-text="初始化数据"
@@ -72,7 +72,7 @@
                         <span>{{ currentFileName }}</span>
                     </div>
                 </template>
-                <div>{{ currentFileContent }}</div>
+                <pre v-html="currentFileContent"></pre>
             </el-card>
         </el-main>
         <el-footer>

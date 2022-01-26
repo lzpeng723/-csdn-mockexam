@@ -22,7 +22,7 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
-      MYSQL_DATABASE: c4exam
-      MYSQL_USER: c4exam
-      MYSQL_PASSWORD: c4exam
+      MYSQL_DATABASE: csdn-mockexam-c4-javabase
+      MYSQL_USER: csdn-mockexam-c4-javabase
+      MYSQL_PASSWORD: csdn-mockexam-c4-javabase
       MYSQL_RANDOM_ROOT_PASSWORD: yes

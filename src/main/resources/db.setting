@@ -1,12 +1,11 @@
 #------------------------------------------------------------------------------------------
 ## 基本配置信息
 # JDBC URL，根据不同的数据库，使用相应的JDBC连接字符串
-#url=jdbc:mysql://db:3306/c4exam?autoReconnect=true&failOverReadOnly=false&useUnicode=true&characterEncoding=UTF8&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true
-url=jdbc:mysql://db:3306/c4exam
+url=jdbc:mysql://db:3306/csdn-mockexam-c4-javabase
 # 用户名，此处也可以使用 user 代替
-username=c4exam
+username=csdn-mockexam-c4-javabase
 # 密码，此处也可以使用 pass 代替
-password=c4exam
+password=csdn-mockexam-c4-javabase
 # JDBC驱动名，可选（Hutool会自动识别）
 driver=com.mysql.cj.jdbc.Driver
 

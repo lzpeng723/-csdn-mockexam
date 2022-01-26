@@ -23,7 +23,7 @@ const App = {
         }
     },
     async created() {
-        this.viewDbUrl = `${location.protocol}//${location.hostname}:9090/?server=db&username=c4exam&db=c4exam&select=file_encryption`
+        this.viewDbUrl = `${location.protocol}//${location.hostname}:9090/?server=db&username=csdn-mockexam-c4-javabase&db=csdn-mockexam-c4-javabase&select=file_encryption`
         this.getHomeData()
     },
     methods: {

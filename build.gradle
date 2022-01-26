@@ -31,6 +31,6 @@ test {
 }
 
 war {
-    baseName 'c4exam'
+    baseName 'csdn-mockexam-c4-javabase'
     version ''
 }

@@ -9,7 +9,7 @@ RUN gradle build war
 # 使用tomcat:9-jre8-alpine镜像
 FROM tomcat:9-jre8-alpine
 # 复制文件
-COPY --from=build /home/gradle/project/build/libs/c4exam.war /usr/local/tomcat/webapps
+COPY --from=build /home/gradle/project/build/libs/csdn-mockexam-c4-javabase.war /usr/local/tomcat/webapps
 # 暴漏端口
 EXPOSE 8080
 # 运行tomcat
