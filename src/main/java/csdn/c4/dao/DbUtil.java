@@ -1,7 +1,6 @@
 package csdn.c4.dao;
 
 import cn.hutool.core.io.IoUtil;
-import cn.hutool.core.map.MapBuilder;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.db.Db;
 import cn.hutool.db.Entity;
@@ -10,14 +9,12 @@ import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
 import csdn.c4.Main;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.nio.file.Files;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -29,7 +26,6 @@ import java.util.stream.Collectors;
  * @version 1.0
  * @date 2022/1/29 13:24
  */
-@Slf4j
 public class DbUtil {
 
     /**
