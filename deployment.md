@@ -1,8 +1,6 @@
 ## 所需环境
 
-JDK 1.8+
-
-Tomcat 9
+JDK 11
 
 Mysql 5.7+
 
@@ -30,6 +28,6 @@ git clone https://oauth2:Gqzn4ZiwtZtMdRk7wbKP@gitcode.net/exam-rooms/c4-primary-
 - ```bash
     cd csdn-exam-c4-javabase
     docker build -t csdn-exam-c4-javabase:latest .
-    docker run --name csdn-exam-c4-javabase-01 -d --add-host db:{数据库机器ip} -p 8080:8080 csdn-exam-c4-javabase:latest
+    docker run --name csdn-exam-c4-javabase-01 --add-host db:{数据库机器ip} csdn-exam-c4-javabase:latest
   ```
 - 查看命令行结果

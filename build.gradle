@@ -39,8 +39,3 @@ jar {
         attributes 'Class-Path': './libs'
     }
 }
-
-task copyToLib(type: Copy) {
-    into "./build/libs"
-    from configurations.runtime
-}

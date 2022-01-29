@@ -5,12 +5,10 @@ WORKDIR /home/gradle/project
 # 复制文件
 COPY . /home/gradle/project
 # 安装依赖 打包
-RUN gradle build war
-# 使用tomcat:9-jre11-openjdk镜像
-FROM tomcat:9-jre11-openjdk
+RUN gradle build jar
+# 使用openjdk:18-ea-11-alpine3.15镜像
+FROM  openjdk:18-ea-11-alpine3.15
 # 复制文件
-COPY --from=build /home/gradle/project/build/libs/csdn-exam-c4-javabase.war /usr/local/tomcat/webapps
-# 暴漏端口
-EXPOSE 8080
-# 运行tomcat
-CMD ["/usr/local/tomcat/bin/catalina.sh", "run"]
+COPY --from=build /home/gradle/project/build/libs/csdn-exam-c4-javabase.jar /
+COPY --from=build /home/gradle/project/lib /
+ENTRYPOINT  ["java","-cp","/lib", "-jar", "csdn-exam-c4-javabase.jar"]
