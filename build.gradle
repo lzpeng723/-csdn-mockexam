@@ -1,6 +1,5 @@
 plugins {
     id 'java'
-    id 'war'
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -21,7 +20,6 @@ dependencies {
     implementation 'org.apache.poi:poi:5.2.0'
     implementation 'org.apache.poi:poi-ooxml:5.2.0'
     implementation 'mysql:mysql-connector-java:8.0.28'
-    compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
     testImplementation 'junit:junit:4.11'
@@ -33,7 +31,16 @@ test {
     useJUnitPlatform()
 }
 
-war {
+jar {
     baseName 'csdn-exam-c4-javabase'
     version ''
+    manifest {
+        attributes 'Main-Class': 'csdn.c4.Main'
+        attributes 'Class-Path': './libs'
+    }
+}
+
+task copyToLib(type: Copy) {
+    into "./build/libs"
+    from configurations.runtime
 }

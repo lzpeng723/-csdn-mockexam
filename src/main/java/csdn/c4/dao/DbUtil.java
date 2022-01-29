@@ -1,11 +1,14 @@
-package csdn.c4;
+package csdn.c4.dao;
 
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.map.MapBuilder;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.db.Db;
 import cn.hutool.db.Entity;
 import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
+import cn.hutool.poi.excel.ExcelWriter;
+import csdn.c4.Main;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.nio.file.Files;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -26,7 +30,7 @@ import java.util.stream.Collectors;
  * @date 2022/1/29 13:24
  */
 @Slf4j
-public class DbUtils {
+public class DbUtil {
 
     /**
      * 获取数据库连接信息
@@ -60,21 +64,8 @@ public class DbUtils {
      */
     private static Map<Integer, BigDecimal> userFundRatioMap;
 
-    static {
-        // 创建表
-        initTable();
-        // 初始化数据
-        initData();
-        // 初始化成员变量
-        initField();
-        // 计算五险一金数据
-        List<Entity> userFinalSalaryEntityList = calculateInsuranceFundData();
-        // 计算个人所得税数据
-        calculateTaxData(userFinalSalaryEntityList);
-    }
-
     @SneakyThrows
-    private static void calculateTaxData(List<Entity> userFinalSalaryEntityList) {
+    public static void calculateTaxData(List<Entity> userFinalSalaryEntityList) {
         // 按员工工号分组
         Map<String, List<Entity>> userFinalSalaryEntityListGroupByUser = userFinalSalaryEntityList.stream().collect(Collectors.groupingBy(o -> o.getStr("id")));
         userFinalSalaryEntityListGroupByUser.forEach((userId, userFinalSalaries) -> {
@@ -160,7 +151,7 @@ public class DbUtils {
      * 初始化成员变量
      */
     @SneakyThrows
-    private static void initField() {
+    public static void initField() {
         insuranceRatioEntityList = DB.query("SELECT * FROM insurance_ratio");
         List<Entity> fundDeclareEntityList = DB.query("SELECT * FROM user_fund_declare");
         userBaseNumberMap = new HashMap<>();
@@ -176,7 +167,7 @@ public class DbUtils {
      * 计算数据
      */
     @SneakyThrows
-    private static List<Entity> calculateInsuranceFundData() {
+    public static List<Entity> calculateInsuranceFundData() {
         List<Entity> userFinalSalaryEntityList = new ArrayList<>();
         List<Entity> salaryEntityList = DB.query("SELECT * FROM user_salary");
         for (Entity salaryEntity : salaryEntityList) {
@@ -279,12 +270,12 @@ public class DbUtils {
     /**
      * 初始化表结构
      */
-    private static void initTable() {
-        try (InputStream is = DbUtils.class.getClassLoader().getResourceAsStream("init")) {
+    public static void initTable() {
+        try (InputStream is = DbUtil.class.getClassLoader().getResourceAsStream("init")) {
             String filesStr = IoUtil.readUtf8(is);
             String[] fileNames = filesStr.split("\r?\n");
             for (String fileName : fileNames) {
-                try (InputStream fileInput = DbUtils.class.getClassLoader().getResourceAsStream("init/" + fileName)) {
+                try (InputStream fileInput = DbUtil.class.getClassLoader().getResourceAsStream("init/" + fileName)) {
                     String sql = IoUtil.readUtf8(fileInput);
                     DB.execute(sql);
                 } catch (IOException | SQLException e) {
@@ -301,7 +292,7 @@ public class DbUtils {
      *
      * @return
      */
-    public static Db getDB() {
+    public static Db getDb() {
         return DB;
     }
 
@@ -309,7 +300,7 @@ public class DbUtils {
      * 初始化数据
      */
     @SneakyThrows
-    private static void initData() {
+    public static void initData() {
         List<Entity> insuranceEntityList = initInsuranceData();
         List<Entity> fundDeclareEntityList = initFundDeclareData();
         List<Entity> salaryEntityList = initSalaryData();
@@ -428,4 +419,50 @@ public class DbUtils {
     }
 
 
+    /**
+     * 生成 excel
+     *
+     * @param month 月份
+     */
+    @SneakyThrows
+    public static void generateExcel(int month) {
+        String userDir = System.getProperty("user.dir");
+        ExcelReader reader = ExcelUtil.getReader(Main.class.getResourceAsStream("/企业员工月度工资成本支付表.xlsx"));
+        File file = new File(userDir, "workspace/企业员工月度工资成本支付表.xlsx");
+        ExcelWriter writer = reader.getWriter();
+        writer.passRows(1);
+        List<Entity> userFinalSalaryEntityList = DB.query("SELECT * FROM user_final_salary WHERE month = ?;", month);
+        for (Entity userFinalSalaryEntity : userFinalSalaryEntityList) {
+            writer.writeRow(Arrays.asList(
+                    userFinalSalaryEntity.get("id"),
+                    userFinalSalaryEntity.get("name"),
+                    userFinalSalaryEntity.get("dept"),
+                    userFinalSalaryEntity.get("user_salary"),
+                    userFinalSalaryEntity.get("user_deduction"),
+                    userFinalSalaryEntity.get("user_endowment_insurance"),
+                    userFinalSalaryEntity.get("user_medical_insurance"),
+                    userFinalSalaryEntity.get("user_unemployment_insurance"),
+                    userFinalSalaryEntity.get("user_employment_injury_insurance"),
+                    userFinalSalaryEntity.get("user_maternity_insurance"),
+                    userFinalSalaryEntity.get("user_housing_provident_fund"),
+                    userFinalSalaryEntity.get("user_total"),
+                    userFinalSalaryEntity.get("company_endowment_insurance"),
+                    userFinalSalaryEntity.get("company_medical_insurance"),
+                    userFinalSalaryEntity.get("company_unemployment_insurance"),
+                    userFinalSalaryEntity.get("company_employment_injury_insurance"),
+                    userFinalSalaryEntity.get("company_maternity_insurance"),
+                    userFinalSalaryEntity.get("company_housing_provident_fund"),
+                    userFinalSalaryEntity.get("company_total"),
+                    userFinalSalaryEntity.get("user_tax"),
+                    userFinalSalaryEntity.get("should_salary"),
+                    userFinalSalaryEntity.get("actual_salary"),
+                    userFinalSalaryEntity.get("company_cost")
+            ));
+        }
+        writer.setDestFile(file);
+        writer.flush();
+        writer.close();
+        System.setProperty("TARGET_FILE", file.getAbsolutePath());
+        System.out.println("生成的文件在: " + file.getAbsolutePath());
+    }
 }
