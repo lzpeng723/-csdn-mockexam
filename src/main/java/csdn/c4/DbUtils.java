@@ -13,9 +13,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.net.URL;
+import java.math.RoundingMode;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 数据库工具类
@@ -31,6 +32,11 @@ public class DbUtils {
      * 获取数据库连接信息
      */
     private static final Db DB = Db.use();
+
+    /**
+     * 免征额
+     */
+    private static final BigDecimal TAX_EXEMPTION = new BigDecimal("5000");
 
     /**
      * 公司
@@ -61,8 +67,93 @@ public class DbUtils {
         initData();
         // 初始化成员变量
         initField();
-        // 计算数据
-        calculateData();
+        // 计算五险一金数据
+        List<Entity> userFinalSalaryEntityList = calculateInsuranceFundData();
+        // 计算个人所得税数据
+        calculateTaxData(userFinalSalaryEntityList);
+    }
+
+    @SneakyThrows
+    private static void calculateTaxData(List<Entity> userFinalSalaryEntityList) {
+        // 按员工工号分组
+        Map<String, List<Entity>> userFinalSalaryEntityListGroupByUser = userFinalSalaryEntityList.stream().collect(Collectors.groupingBy(o -> o.getStr("id")));
+        userFinalSalaryEntityListGroupByUser.forEach((userId, userFinalSalaries) -> {
+            // 按月份升序
+            userFinalSalaries.sort(Comparator.comparing(o -> o.getInt("month")));
+            // 开始计算个人所得税
+            // 累计收入 应发工资
+            BigDecimal totalSalary = BigDecimal.ZERO;
+            // 累计免征
+            BigDecimal totalTaxExemption = BigDecimal.ZERO;
+            // 累计五险一金个人部分扣除
+            BigDecimal totalUserInsuranceFund = BigDecimal.ZERO;
+            // 已预缴预扣税额
+            BigDecimal alreadyPaidTax = BigDecimal.ZERO;
+            for (Entity userFinalSalary : userFinalSalaries) {
+                // 应发工资
+                BigDecimal shouldSalary = userFinalSalary.getBigDecimal("should_salary");
+                totalSalary = NumberUtil.add(totalSalary, shouldSalary);
+                totalTaxExemption = NumberUtil.add(totalTaxExemption, TAX_EXEMPTION);
+                // 五险一金 个人 合计
+                BigDecimal userTotal = userFinalSalary.getBigDecimal("user_total");
+                totalUserInsuranceFund = NumberUtil.add(totalUserInsuranceFund, userTotal);
+                // 应纳税所得额
+                BigDecimal shouldPayTaxSalary = NumberUtil.sub(totalSalary, totalTaxExemption, totalUserInsuranceFund);
+                // 预缴预扣税额
+                BigDecimal paidTax = calcPaidTax(shouldPayTaxSalary);
+                // 应纳税额 税额不能是负数
+                BigDecimal userTax = NumberUtil.max(BigDecimal.ZERO, NumberUtil.sub(paidTax, alreadyPaidTax));
+                alreadyPaidTax = paidTax;
+                userTax = userTax.setScale(2, RoundingMode.HALF_UP);
+                userFinalSalary.set("user_tax", userTax);
+                // 实发工资 = 应发工资-五险一金个人缴纳部分-个税
+                BigDecimal actualSalary = NumberUtil.sub(shouldSalary, userTotal, userTax);
+                actualSalary = actualSalary.setScale(2, RoundingMode.HALF_UP);
+                userFinalSalary.set("actual_salary", actualSalary);
+            }
+        });
+        DB.tx(db -> {
+            db.execute("DELETE FROM user_final_salary;");
+            db.insert(userFinalSalaryEntityList);
+        });
+    }
+
+    /**
+     * 计算预缴预扣税额
+     *
+     * @param shouldPayTaxSalary 应纳税所得额
+     * @return
+     */
+    private static BigDecimal calcPaidTax(BigDecimal shouldPayTaxSalary) {
+        if (BigDecimal.ZERO.compareTo(shouldPayTaxSalary) >= 0) {
+            return BigDecimal.ZERO;
+        }
+        if (shouldPayTaxSalary.compareTo(new BigDecimal("36000")) <= 0) {
+            // 3% 0
+            return NumberUtil.mul(shouldPayTaxSalary, new BigDecimal("0.03"));
+        }
+        if (shouldPayTaxSalary.compareTo(new BigDecimal("144000")) <= 0) {
+            // 10% 2520
+            return shouldPayTaxSalary.multiply(new BigDecimal("0.10")).subtract(new BigDecimal("2520"));
+        }
+        if (shouldPayTaxSalary.compareTo(new BigDecimal("300000")) <= 0) {
+            // 20% 16920
+            return shouldPayTaxSalary.multiply(new BigDecimal("0.20")).subtract(new BigDecimal("16920"));
+        }
+        if (shouldPayTaxSalary.compareTo(new BigDecimal("420000")) <= 0) {
+            // 25% 31920
+            return shouldPayTaxSalary.multiply(new BigDecimal("0.25")).subtract(new BigDecimal("31920"));
+        }
+        if (shouldPayTaxSalary.compareTo(new BigDecimal("660000")) <= 0) {
+            // 30% 52920
+            return shouldPayTaxSalary.multiply(new BigDecimal("0.30")).subtract(new BigDecimal("52920"));
+        }
+        if (shouldPayTaxSalary.compareTo(new BigDecimal("960000")) <= 0) {
+            // 35% 85920
+            return shouldPayTaxSalary.multiply(new BigDecimal("0.35")).subtract(new BigDecimal("85920"));
+        }
+        // 45% 181920
+        return shouldPayTaxSalary.multiply(new BigDecimal("0.45")).subtract(new BigDecimal("181920"));
     }
 
     /**
@@ -85,7 +176,7 @@ public class DbUtils {
      * 计算数据
      */
     @SneakyThrows
-    private static void calculateData() {
+    private static List<Entity> calculateInsuranceFundData() {
         List<Entity> userFinalSalaryEntityList = new ArrayList<>();
         List<Entity> salaryEntityList = DB.query("SELECT * FROM user_salary");
         for (Entity salaryEntity : salaryEntityList) {
@@ -166,10 +257,7 @@ public class DbUtils {
             userFinalSalaryEntity.set("company_cost", companyCost);
             userFinalSalaryEntityList.add(userFinalSalaryEntity);
         }
-        DB.tx(db -> {
-            db.execute("DELETE FROM user_final_salary;");
-            db.insert(userFinalSalaryEntityList);
-        });
+        return userFinalSalaryEntityList;
 
     }
 
