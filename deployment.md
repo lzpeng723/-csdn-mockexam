@@ -20,7 +20,8 @@ git clone https://oauth2:Gqzn4ZiwtZtMdRk7wbKP@gitcode.net/exam-rooms/c4-primary-
 - 因在 [`src/main/resources/db.setting`](./src/main/resources/db.setting) 中配置了数据库连接 ip 为 `db`, 需要手动添加 `host` 配置 `db:数据库机器ip`
 - 开发工具启动项目 运行 `csdn.c4.Main`, 即可生成 `./workspace/企业员工月度工资成本支付表.xlsx`
 
-## 2 手工构建 docker 镜像运行
+Docker 镜像没有弄好
+## ~~2 手工构建 docker 镜像运行~~
 
 - 在 docker 容器内启动数据库
 
