@@ -1,6 +1,7 @@
 package csdn.c4;
 
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.util.NumberUtil;
 import cn.hutool.db.Db;
 import cn.hutool.db.Entity;
 import cn.hutool.poi.excel.ExcelReader;
@@ -11,12 +12,10 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 数据库工具类
@@ -33,9 +32,160 @@ public class DbUtils {
      */
     private static final Db DB = Db.use();
 
+    /**
+     * 公司
+     */
+    private static String COMPANY = "company_ratio";
+    /**
+     * 个人
+     */
+    private static String USER = "user_ratio";
+
+    /**
+     * 五险数据缓存
+     */
+    private static List<Entity> insuranceRatioEntityList;
+    /**
+     * 缴费基数缓存
+     */
+    private static Map<Integer, BigDecimal> userBaseNumberMap;
+    /**
+     * 公积金缴费比例缓存
+     */
+    private static Map<Integer, BigDecimal> userFundRatioMap;
+
     static {
+        // 创建表
         initTable();
+        // 初始化数据
         initData();
+        // 初始化成员变量
+        initField();
+        // 计算数据
+        calculateData();
+    }
+
+    /**
+     * 初始化成员变量
+     */
+    @SneakyThrows
+    private static void initField() {
+        insuranceRatioEntityList = DB.query("SELECT * FROM insurance_ratio");
+        List<Entity> fundDeclareEntityList = DB.query("SELECT * FROM user_fund_declare");
+        userBaseNumberMap = new HashMap<>();
+        userFundRatioMap = new HashMap<>();
+        for (Entity fundDeclareEntity : fundDeclareEntityList) {
+            Integer userId = fundDeclareEntity.getInt("id");
+            userBaseNumberMap.put(userId, fundDeclareEntity.getBigDecimal("base_number"));
+            userFundRatioMap.put(userId, fundDeclareEntity.getBigDecimal("fund_ratio"));
+        }
+    }
+
+    /**
+     * 计算数据
+     */
+    @SneakyThrows
+    private static void calculateData() {
+        List<Entity> userFinalSalaryEntityList = new ArrayList<>();
+        List<Entity> salaryEntityList = DB.query("SELECT * FROM user_salary");
+        for (Entity salaryEntity : salaryEntityList) {
+            Entity userFinalSalaryEntity = Entity.create("user_final_salary");
+            // 人员 月份固定变量
+            Integer month = salaryEntity.getInt("month");
+            Integer userId = salaryEntity.getInt("id");
+            String name = salaryEntity.getStr("name");
+            String dept = salaryEntity.getStr("dept");
+            userFinalSalaryEntity.set("month", month);
+            userFinalSalaryEntity.set("id", userId);
+            userFinalSalaryEntity.set("name", name);
+            userFinalSalaryEntity.set("dept", dept);
+            // 正收益
+            // 底薪
+            BigDecimal baseSalary = salaryEntity.getBigDecimal("base_salary");
+            // 岗位工资
+            BigDecimal postSalary = salaryEntity.getBigDecimal("post_salary");
+            // 绩效奖金
+            BigDecimal achievementBonus = salaryEntity.getBigDecimal("achievement_bonus");
+            // 交通补助
+            BigDecimal trafficSubsidy = salaryEntity.getBigDecimal("traffic_subsidy");
+            // 通信补助
+            BigDecimal phoneSubsidy = salaryEntity.getBigDecimal("phone_subsidy");
+            // 负收益
+            // 违规处罚
+            BigDecimal punishmentViolation = salaryEntity.getBigDecimal("punishment_violation");
+            // 考勤扣除
+            BigDecimal achievementDeduction = salaryEntity.getBigDecimal("achievement_deduction");
+            // 工资
+            BigDecimal salary = NumberUtil.add(baseSalary, postSalary, achievementBonus, trafficSubsidy, phoneSubsidy);
+            userFinalSalaryEntity.set("user_salary", salary);
+            // 扣款
+            BigDecimal deduction = NumberUtil.add(punishmentViolation, achievementDeduction);
+            userFinalSalaryEntity.set("user_deduction", deduction);
+            // 应发工资
+            BigDecimal shouldSalary = NumberUtil.sub(salary, deduction);
+            userFinalSalaryEntity.set("should_salary", shouldSalary);
+            // 缴费基数
+            BigDecimal baseNumber = userBaseNumberMap.getOrDefault(userId, BigDecimal.ZERO);
+            // 公积金比例
+            BigDecimal fundRatio = userFundRatioMap.getOrDefault(userId, BigDecimal.ZERO);
+            // 一斤 个人 单位
+            BigDecimal fund = NumberUtil.mul(baseNumber, fundRatio);
+            // 五险 个人
+            BigDecimal userEndowmentInsurance = NumberUtil.mul(baseNumber, getRatio("endowment_insurance", USER));
+            userFinalSalaryEntity.set("user_endowment_insurance", userEndowmentInsurance);
+            BigDecimal userMedicalInsurance = NumberUtil.mul(baseNumber, getRatio("medical_insurance", USER));
+            userFinalSalaryEntity.set("user_medical_insurance", userMedicalInsurance);
+            BigDecimal userUnemploymentInsurance = NumberUtil.mul(baseNumber, getRatio("unemployment_insurance", USER));
+            userFinalSalaryEntity.set("user_unemployment_insurance", userUnemploymentInsurance);
+            BigDecimal userEmploymentInjuryInsurance = NumberUtil.mul(baseNumber, getRatio("employment_injury_insurance", USER));
+            userFinalSalaryEntity.set("user_employment_injury_insurance", userEmploymentInjuryInsurance);
+            BigDecimal userMaternityInsurance = NumberUtil.mul(baseNumber, getRatio("maternity_insurance", USER));
+            userFinalSalaryEntity.set("user_maternity_insurance", userMaternityInsurance);
+            // 一金 个人
+            userFinalSalaryEntity.set("user_housing_provident_fund", fund);
+            BigDecimal userTotal = NumberUtil.add(userEndowmentInsurance, userMedicalInsurance, userUnemploymentInsurance, userEmploymentInjuryInsurance, userMaternityInsurance, fund);
+            userFinalSalaryEntity.set("user_total", userTotal);
+            // 五险 公司
+            BigDecimal companyEndowmentInsurance = NumberUtil.mul(baseNumber, getRatio("endowment_insurance", COMPANY));
+            userFinalSalaryEntity.set("company_endowment_insurance", companyEndowmentInsurance);
+            BigDecimal companyMedicalInsurance = NumberUtil.mul(baseNumber, getRatio("medical_insurance", COMPANY));
+            userFinalSalaryEntity.set("company_medical_insurance", companyMedicalInsurance);
+            BigDecimal companyUnemploymentInsurance = NumberUtil.mul(baseNumber, getRatio("unemployment_insurance", COMPANY));
+            userFinalSalaryEntity.set("company_unemployment_insurance", companyUnemploymentInsurance);
+            BigDecimal companyEmploymentInjuryInsurance = NumberUtil.mul(baseNumber, getRatio("employment_injury_insurance", COMPANY));
+            userFinalSalaryEntity.set("company_employment_injury_insurance", companyEmploymentInjuryInsurance);
+            BigDecimal companyMaternityInsurance = NumberUtil.mul(baseNumber, getRatio("maternity_insurance", COMPANY));
+            userFinalSalaryEntity.set("company_maternity_insurance", companyMaternityInsurance);
+            // 一金 单位
+            userFinalSalaryEntity.set("company_housing_provident_fund", fund);
+            //  企业缴纳五险一金
+            BigDecimal companyTotal = NumberUtil.add(companyEndowmentInsurance, companyMedicalInsurance, companyUnemploymentInsurance, companyEmploymentInjuryInsurance, companyMaternityInsurance, fund);
+            userFinalSalaryEntity.set("company_total", companyTotal);
+            // 企业支出成本
+            BigDecimal companyCost = NumberUtil.add(shouldSalary, companyTotal);
+            userFinalSalaryEntity.set("company_cost", companyCost);
+            userFinalSalaryEntityList.add(userFinalSalaryEntity);
+        }
+        DB.tx(db -> {
+            db.execute("DELETE FROM user_final_salary;");
+            db.insert(userFinalSalaryEntityList);
+        });
+
+    }
+
+    /**
+     * 获得缴纳比例
+     *
+     * @param number 保险编码
+     * @param type   类型 1 公司 0 个人
+     * @return
+     */
+    private static BigDecimal getRatio(String number, String type) {
+        return insuranceRatioEntityList.stream()
+                .filter(o -> Objects.equals(o.getStr("number"), number))
+                .map(o -> o.getBigDecimal(type))
+                .findFirst()
+                .orElse(BigDecimal.ZERO);
     }
 
     /**
@@ -72,15 +222,41 @@ public class DbUtils {
      */
     @SneakyThrows
     private static void initData() {
-        List<Entity> salaryEntityList = initSalaryData();
+        List<Entity> insuranceEntityList = initInsuranceData();
         List<Entity> fundDeclareEntityList = initFundDeclareData();
+        List<Entity> salaryEntityList = initSalaryData();
         DB.tx(db -> {
-            db.execute("DELETE FROM user_salary;");
-            db.insert(salaryEntityList);
+            db.execute("DELETE FROM insurance_ratio;");
+            db.insert(insuranceEntityList);
             db.execute("DELETE FROM user_fund_declare;");
             db.insert(fundDeclareEntityList);
+            db.execute("DELETE FROM user_salary;");
+            db.insert(salaryEntityList);
             db.execute("DELETE FROM user_final_salary;");
         });
+    }
+
+    /**
+     * 初始五险数据
+     *
+     * @return
+     */
+    private static List<Entity> initInsuranceData() {
+        String userDir = System.getProperty("user.dir");
+        File insuranceFile = new File(userDir, "workspace/data/五险缴纳比例.xlsx");
+        ExcelReader reader = ExcelUtil.getReader(insuranceFile);
+        List<Map<String, Object>> maps = reader.readAll();
+        List<Entity> insuranceEntityList = new ArrayList<>();
+        for (Map<String, Object> map : maps) {
+            //保险比例配置表
+            Entity insuranceEntity = Entity.create("insurance_ratio");
+            insuranceEntity.set("number", map.get("编码"));
+            insuranceEntity.set("name", map.get("名称"));
+            insuranceEntity.set("company_ratio", map.get("公司比例"));
+            insuranceEntity.set("user_ratio", map.get("个人比例"));
+            insuranceEntityList.add(insuranceEntity);
+        }
+        return insuranceEntityList;
     }
 
     /**
