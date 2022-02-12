@@ -17,7 +17,7 @@ Git仓库地址  https://oauth2:xxxxxxxxxxxx@gitcode.net/xxxxxxxxxx/xxxxxxx/xxxx
 
 为保证认证的公平性和真实性，要求使用OBS软件推流，考试过程中的录屏、录像和认证资料将进入CSDN的人才库。考生需在正式开考前下载并安装OBS软件，熟悉OBS使用方法。考试开始前10分钟，可进入考试详情页面获取推流地址和密钥，请您务必第一时间开启OBS软件，按照教程进行相关设置。
 
-OBS推流使用指南
+[OBS推流使用指南](./obs.md)
 
 [![img](https://ks.csdn.net/img/download.8b634f99.svg)下载OBS](https://obsproject.com/download)
 
@@ -25,7 +25,7 @@ OBS推流使用指南
 
 要求使用Git版本控制系统进行项目管理。考试正式开始后，在考试详情页面获取项目仓库地址，仓库中含有考试需求文档、原型图、必要素材等。请确保所编写代码均已提交至远程仓库，成绩审核以考试结束前最后一次提交版本为准。建议考试结束前20分钟确保已经上传一个版本，避免考试结果为空。
 
-Git仓库使用说明
+[Git仓库使用说明](./git-notes.md)
 
 [![img](https://ks.csdn.net/img/download.8b634f99.svg)下载Git](https://git-scm.com/download)
 
@@ -33,7 +33,7 @@ Git仓库使用说明
 
 项目评审过程中将使用Docker容器作为运行环境，开发者需在README.md文档中提供详尽的部署与配置说明。项目评审时，如果根据README.md文档无法正常运行，则会直接使用服务编排文件启动(即运行命令docker-compose up)，如果依然无法正常运行项目，将终止审核。
 
-Docker部署要求
+[Docker部署要求](./docker-deploy.md)
 
 [![img](https://ks.csdn.net/img/download.8b634f99.svg)下载Docker](https://www.docker.com/products/docker-desktop)
 
