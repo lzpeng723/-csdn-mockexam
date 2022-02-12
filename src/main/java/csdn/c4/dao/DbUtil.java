@@ -1,7 +1,9 @@
 package csdn.c4.dao;
 
+import cn.hutool.core.collection.EnumerationIter;
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
-import cn.hutool.core.util.NumberUtil;
+import cn.hutool.core.util.*;
 import cn.hutool.db.Db;
 import cn.hutool.db.Entity;
 import cn.hutool.poi.excel.ExcelReader;
@@ -9,14 +11,18 @@ import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
 import csdn.c4.Main;
 import lombok.SneakyThrows;
+import lombok.extern.java.Log;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.util.stream.Collectors;
 
 /**
@@ -26,6 +32,7 @@ import java.util.stream.Collectors;
  * @version 1.0
  * @date 2022/1/29 13:24
  */
+@Log
 public class DbUtil {
 
     /**
@@ -267,19 +274,54 @@ public class DbUtil {
      * 初始化表结构
      */
     public static void initTable() {
-        try (InputStream is = DbUtil.class.getClassLoader().getResourceAsStream("init")) {
-            String filesStr = IoUtil.readUtf8(is);
-            String[] fileNames = filesStr.split("\r?\n");
-            for (String fileName : fileNames) {
-                try (InputStream fileInput = DbUtil.class.getClassLoader().getResourceAsStream("init/" + fileName)) {
-                    String sql = IoUtil.readUtf8(fileInput);
-                    DB.execute(sql);
-                } catch (IOException | SQLException e) {
-                    e.printStackTrace();
-                }
+        URL url = DbUtil.class.getClassLoader().getResource("init");
+        switch (url.getProtocol()) {
+            case "file":
+                initTableByFile(new File(URLUtil.decode(url.getFile(), CharsetUtil.systemCharsetName())));
+                break;
+            case "jar":
+                initTableByJar(URLUtil.getJarFile(url));
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * 初始化表结构 通过 jar
+     *
+     * @param jarFile
+     */
+    @SneakyThrows
+    private static void initTableByJar(JarFile jarFile) {
+        String name;
+        for (JarEntry entry : new EnumerationIter<>(jarFile.entries())) {
+            name = StrUtil.removePrefix(entry.getName(), StrUtil.SLASH);
+            if (name.startsWith("init") && name.endsWith(".sql") && !entry.isDirectory()) {
+                InputStream is = jarFile.getInputStream(entry);
+                String sql = IoUtil.readUtf8(is);
+                DB.execute(sql);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 初始化表结构 通过 file
+     *
+     * @param file
+     */
+    @SneakyThrows
+    private static void initTableByFile(File file) {
+        if (!file.exists()) {
+            return;
+        }
+        if (file.isFile()) {
+            return;
+        }
+        File[] files = file.listFiles();
+        for (File sqlFile : files) {
+            String sql = FileUtil.readUtf8String(sqlFile);
+            DB.execute(sql);
         }
     }
 

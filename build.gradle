@@ -14,7 +14,6 @@ repositories {
 }
 
 dependencies {
-
     implementation 'org.slf4j:slf4j-api:1.7.33'
     implementation 'cn.hutool:hutool-all:5.7.20'
     implementation 'org.apache.poi:poi:5.2.0'
@@ -31,11 +30,33 @@ test {
     useJUnitPlatform()
 }
 
-jar {
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+// 复制物料
+task copyMaterial(type: Copy) {
+    from './workspace'
+    into './build/libs/workspace'
+}
+// 打包 包括依赖
+jar  {
     baseName 'csdn-exam-c4-javabase'
     version ''
+    manifestContentCharset 'utf-8'
+    metadataCharset 'utf-8'
+    // https://docs.gradle.org/current/javadoc/org/gradle/api/file/DuplicatesStrategy.html
+    duplicatesStrategy = DuplicatesStrategy.WARN
+    from {
+        //添加依懒到打包文件
+        // https://docs.gradle.org/current/javadoc/org/gradle/api/artifacts/ConfigurationContainer.html
+        configurations.compileClasspath.collect {it.isDirectory() ? it : zipTree(it)}
+    }
+    //noinspection GroovyAssignabilityCheck
     manifest {
         attributes 'Main-Class': 'csdn.c4.Main'
-        attributes 'Class-Path': './libs'
     }
 }
+
+// shadowJar.dependsOn copyMaterial
+jar.dependsOn copyMaterial
