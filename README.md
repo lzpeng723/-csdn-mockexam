@@ -23,8 +23,8 @@
 
 - Java-工程师基础能力-认证-C4
   - [报名链接](https://ac.csdn.net/c4outline.html?active=0)
-  - [模拟考试试题](https://github.com/lzpeng723/csdn-mockexam/tree/c4-javabase-exam)
-  - [参考答案](https://github.com/lzpeng723/csdn-mockexam/tree/c4-javabase-answer)
+  - [模拟考试试题](https://github.com/lzpeng723/csdn-mockexam/tree/c4-javabase-mockexam)
+  - [参考答案](https://github.com/lzpeng723/csdn-mockexam/tree/c4-javabase-mockexam-answer)
 - Python-工程师基础能力-认证-C4
   - [报名链接](https://ac.csdn.net/c4outline.html?active=2)
   - 参考答案 更新中...
@@ -33,7 +33,8 @@
   - 参考答案 更新中...
 - Java-工程师项目能力-认证-C4
   - [报名链接](https://ac.csdn.net/c4outline.html?active=1)
-  - 参考答案 更新中...
+  - [模拟考试试题](https://github.com/lzpeng723/csdn-mockexam/tree/c4-javaproject-mockexam)
+  - [参考答案](https://github.com/lzpeng723/csdn-mockexam/tree/c4-javaproject-mockexam-answer)
 - Python-工程师项目能力-认证-C4
   - [报名链接](https://ac.csdn.net/c4outline.html?active=3)
   - 参考答案 更新中...
