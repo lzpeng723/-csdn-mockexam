@@ -1,4 +1,10 @@
-# [CSDN C证 模拟考试汇总](https://ac.csdn.net/index.html)
+# 考试链接汇总
+
+## [CSDN C证 考试报名链接](https://ac.csdn.net)
+## [CSDN C证 模拟考试链接](https://ks.csdn.net/mockexam)
+## [CSDN C证 考试链接](https://ks.csdn.net/exam)
+
+# 考试说明
 
 - C1 见习工程师能力认证，需通过C1认证才能参加C4或者C5的认证考试
 - C4 专项工程师能力认证，分为三个方向各有两个级别，需按方向逐级参加认证考试
