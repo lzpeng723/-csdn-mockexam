@@ -1,7 +1,6 @@
 # OBS推流使用指南
 
-<video src="https://csdnlive.oss-cn-shenzhen.aliyuncs.com/example/obs-min.mp4"></video>
-
+[![OBS推流使用指南](https://ks.csdn.net/img/obs_poster.590e1ad0.png)](https://csdnlive.oss-cn-shenzhen.aliyuncs.com/example/obs-min.mp4)
 
 ## 指南介绍
 
