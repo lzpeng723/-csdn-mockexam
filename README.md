@@ -7,6 +7,9 @@
 
 - 见习-工程师能力-认证-C1
   - [报名链接](https://ac.csdn.net/c1outline.html)
+  - [模拟考试链接](https://ks.csdn.net/mock-testing)
+  - [模拟考试试题](https://github.com/lzpeng723/csdn-mockexam/tree/c1-exam)
+  - [参考答案](https://github.com/lzpeng723/csdn-mockexam/tree/c1-answer)
 
 - Java-工程师基础能力-认证-C4
   - [报名链接](https://ac.csdn.net/c4outline.html?active=0)
