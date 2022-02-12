@@ -3,6 +3,7 @@
 ## [CSDN C证 考试报名链接](https://ac.csdn.net)
 ## [CSDN C证 模拟考试链接](https://ks.csdn.net/mockexam)
 ## [CSDN C证 考试链接](https://ks.csdn.net/exam)
+## [C4 C5考前须知](./exam-notes.md)
 
 # 考试说明
 
