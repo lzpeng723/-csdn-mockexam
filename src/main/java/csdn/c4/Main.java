@@ -1,8 +1,10 @@
 package csdn.c4;
 
 import cn.hutool.db.Entity;
+import cn.hutool.http.HttpUtil;
 import csdn.c4.dao.DbUtil;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -26,7 +28,12 @@ public class Main {
         // 计算个人所得税数据
         DbUtil.calculateTaxData(userFinalSalaryEntityList);
         // 生成 Excel
-        DbUtil.generateExcel(10);
+        File file = DbUtil.generateExcel(10);
+        HttpUtil.createServer(8080)
+                .addAction("/", (req, res) -> {
+                    res.write(file);
+                }).start();
+        System.out.println("浏览器访问 ip:8080 下载最终文件");
     }
 
 }

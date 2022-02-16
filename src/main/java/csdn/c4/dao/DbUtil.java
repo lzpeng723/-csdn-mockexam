@@ -14,12 +14,10 @@ import lombok.SneakyThrows;
 import lombok.extern.java.Log;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -361,17 +359,18 @@ public class DbUtil {
     private static List<Entity> initInsuranceData() {
         String userDir = System.getProperty("user.dir");
         File insuranceFile = new File(userDir, "workspace/data/五险缴纳比例.xlsx");
-        ExcelReader reader = ExcelUtil.getReader(insuranceFile);
-        List<Map<String, Object>> maps = reader.readAll();
         List<Entity> insuranceEntityList = new ArrayList<>();
-        for (Map<String, Object> map : maps) {
-            //保险比例配置表
-            Entity insuranceEntity = Entity.create("insurance_ratio");
-            insuranceEntity.set("number", map.get("编码"));
-            insuranceEntity.set("name", map.get("名称"));
-            insuranceEntity.set("company_ratio", map.get("公司比例"));
-            insuranceEntity.set("user_ratio", map.get("个人比例"));
-            insuranceEntityList.add(insuranceEntity);
+        try (ExcelReader reader = ExcelUtil.getReader(insuranceFile)) {
+            List<Map<String, Object>> maps = reader.readAll();
+            for (Map<String, Object> map : maps) {
+                //保险比例配置表
+                Entity insuranceEntity = Entity.create("insurance_ratio");
+                insuranceEntity.set("number", map.get("编码"));
+                insuranceEntity.set("name", map.get("名称"));
+                insuranceEntity.set("company_ratio", map.get("公司比例"));
+                insuranceEntity.set("user_ratio", map.get("个人比例"));
+                insuranceEntityList.add(insuranceEntity);
+            }
         }
         return insuranceEntityList;
     }
@@ -382,23 +381,24 @@ public class DbUtil {
     private static List<Entity> initFundDeclareData() {
         String userDir = System.getProperty("user.dir");
         File fundFile = new File(userDir, "workspace/data/员工五险一金申报表.xlsx");
-        ExcelReader reader = ExcelUtil.getReader(fundFile);
-        List<Map<String, Object>> maps = reader.readAll();
         List<Entity> fundDeclareEntityList = new ArrayList<>();
-        for (Map<String, Object> map : maps) {
-            //员工五险一金申报表
-            Entity fundDeclareEntity = Entity.create("user_fund_declare");
-            // 工号
-            fundDeclareEntity.set("id", map.get("工号"));
-            // 姓名
-            fundDeclareEntity.set("name", map.get("姓名"));
-            // 部门
-            fundDeclareEntity.set("dept", map.get("部门"));
-            // 基数
-            fundDeclareEntity.set("base_number", map.get("基数"));
-            // 公积金比例
-            fundDeclareEntity.set("fund_ratio", map.get("公积金"));
-            fundDeclareEntityList.add(fundDeclareEntity);
+        try (ExcelReader reader = ExcelUtil.getReader(fundFile)) {
+            List<Map<String, Object>> maps = reader.readAll();
+            for (Map<String, Object> map : maps) {
+                //员工五险一金申报表
+                Entity fundDeclareEntity = Entity.create("user_fund_declare");
+                // 工号
+                fundDeclareEntity.set("id", map.get("工号"));
+                // 姓名
+                fundDeclareEntity.set("name", map.get("姓名"));
+                // 部门
+                fundDeclareEntity.set("dept", map.get("部门"));
+                // 基数
+                fundDeclareEntity.set("base_number", map.get("基数"));
+                // 公积金比例
+                fundDeclareEntity.set("fund_ratio", map.get("公积金"));
+                fundDeclareEntityList.add(fundDeclareEntity);
+            }
         }
         return fundDeclareEntityList;
     }
@@ -422,34 +422,35 @@ public class DbUtil {
             int month = Integer.parseInt(name.substring(0, name.length() - 1));
             File[] salaryFiles = monthFile.listFiles();
             for (File salaryFile : salaryFiles) {
-                ExcelReader reader = ExcelUtil.getReader(salaryFile);
-                List<Map<String, Object>> maps = reader.readAll();
-                for (Map<String, Object> map : maps) {
-                    // 薪酬表
-                    Entity salaryEntity = Entity.create("user_salary");
-                    // 月份
-                    salaryEntity.set("month", month);
-                    // 工号
-                    salaryEntity.set("id", map.get("工号"));
-                    // 姓名
-                    salaryEntity.set("name", map.get("姓名"));
-                    // 部门
-                    salaryEntity.set("dept", map.get("部门"));
-                    // 底薪
-                    salaryEntity.set("base_salary", map.get("底薪"));
-                    // 岗位工资
-                    salaryEntity.set("post_salary", map.get("岗位工资"));
-                    // 绩效奖金
-                    salaryEntity.set("achievement_bonus", map.get("绩效奖金"));
-                    // 违规处罚
-                    salaryEntity.set("punishment_violation", map.get("违规处罚"));
-                    // 交通补助
-                    salaryEntity.set("traffic_subsidy", map.get("交通补助"));
-                    // 通信补助
-                    salaryEntity.set("phone_subsidy", map.get("通信补助"));
-                    // 考勤扣除
-                    salaryEntity.set("achievement_deduction", map.get("考勤扣除"));
-                    salaryEntityList.add(salaryEntity);
+                try (ExcelReader reader = ExcelUtil.getReader(salaryFile)) {
+                    List<Map<String, Object>> maps = reader.readAll();
+                    for (Map<String, Object> map : maps) {
+                        // 薪酬表
+                        Entity salaryEntity = Entity.create("user_salary");
+                        // 月份
+                        salaryEntity.set("month", month);
+                        // 工号
+                        salaryEntity.set("id", map.get("工号"));
+                        // 姓名
+                        salaryEntity.set("name", map.get("姓名"));
+                        // 部门
+                        salaryEntity.set("dept", map.get("部门"));
+                        // 底薪
+                        salaryEntity.set("base_salary", map.get("底薪"));
+                        // 岗位工资
+                        salaryEntity.set("post_salary", map.get("岗位工资"));
+                        // 绩效奖金
+                        salaryEntity.set("achievement_bonus", map.get("绩效奖金"));
+                        // 违规处罚
+                        salaryEntity.set("punishment_violation", map.get("违规处罚"));
+                        // 交通补助
+                        salaryEntity.set("traffic_subsidy", map.get("交通补助"));
+                        // 通信补助
+                        salaryEntity.set("phone_subsidy", map.get("通信补助"));
+                        // 考勤扣除
+                        salaryEntity.set("achievement_deduction", map.get("考勤扣除"));
+                        salaryEntityList.add(salaryEntity);
+                    }
                 }
             }
         }
@@ -461,9 +462,10 @@ public class DbUtil {
      * 生成 excel
      *
      * @param month 月份
+     * @return
      */
     @SneakyThrows
-    public static void generateExcel(int month) {
+    public static File generateExcel(int month) {
         String userDir = System.getProperty("user.dir");
         ExcelReader reader = ExcelUtil.getReader(Main.class.getResourceAsStream("/企业员工月度工资成本支付表.xlsx"));
         File file = new File(userDir, "workspace/企业员工月度工资成本支付表.xlsx");
@@ -502,5 +504,6 @@ public class DbUtil {
         writer.close();
         System.setProperty("TARGET_FILE", file.getAbsolutePath());
         System.out.println("生成的文件在: " + file.getAbsolutePath());
+        return file;
     }
 }

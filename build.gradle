@@ -15,7 +15,7 @@ repositories {
 
 dependencies {
     implementation 'org.slf4j:slf4j-api:1.7.33'
-    implementation 'cn.hutool:hutool-all:5.7.20'
+    implementation 'cn.hutool:hutool-all:5.7.21'
     implementation 'org.apache.poi:poi:5.2.0'
     implementation 'org.apache.poi:poi-ooxml:5.2.0'
     implementation 'mysql:mysql-connector-java:8.0.28'
@@ -39,24 +39,29 @@ task copyMaterial(type: Copy) {
     from './workspace'
     into './build/libs/workspace'
 }
+
+// 复制依赖
+task copyLib(type: Copy) {
+    // https://docs.gradle.org/current/javadoc/org/gradle/api/artifacts/ConfigurationContainer.html
+    from configurations.compileClasspath
+    into './build/libs/lib'
+}
 // 打包 包括依赖
 jar  {
+    // https://docs.gradle.org/current/javadoc/org/gradle/api/artifacts/ConfigurationContainer.html
+    def classpathStr = configurations.compileClasspath.filter{ it.isFile() }.collect {'lib/' + it.getName()}.join (' ')
     baseName 'csdn-exam-c4-javabase'
     version ''
     manifestContentCharset 'utf-8'
     metadataCharset 'utf-8'
-    // https://docs.gradle.org/current/javadoc/org/gradle/api/file/DuplicatesStrategy.html
-    duplicatesStrategy = DuplicatesStrategy.WARN
-    from {
-        //添加依懒到打包文件
-        // https://docs.gradle.org/current/javadoc/org/gradle/api/artifacts/ConfigurationContainer.html
-        configurations.compileClasspath.collect {it.isDirectory() ? it : zipTree(it)}
-    }
     //noinspection GroovyAssignabilityCheck
     manifest {
         attributes 'Main-Class': 'csdn.c4.Main'
+        attributes 'Class-Path': classpathStr
     }
 }
 
 // shadowJar.dependsOn copyMaterial
 jar.dependsOn copyMaterial
+// shadowJar.dependsOn copyLib
+jar.dependsOn copyLib
