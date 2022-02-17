@@ -11,10 +11,16 @@ Idea
 ## 1 下载源码
 
 ```bash
-git clone -b c4-javabase-answer git@github.com:lzpeng723/csdn-mockexam.git csdn-mockexam-c4-javabase-answer
+# 通过 github
+git clone -b c4-javabase-mockexam-answer git@github.com:lzpeng723/csdn-exam.git csdn-mockexam-c4-javabase-answer
 OR
-git clone -b c4-javabase-answer https://github.com/lzpeng723/csdn-mockexam.git csdn-mockexam-c4-javabase-answer
+git clone -b c4-javabase-mockexam-answer https://github.com/lzpeng723/csdn-exam.git csdn-mockexam-c4-javabase-answer
 
+
+# 通过 gitee
+git clone -b c4-javabase-mockexam-answer git@gitee.com:lzpeng723/csdn-exam.git csdn-mockexam-c4-javabase-answer
+OR
+git clone -b c4-javabase-mockexam-answer https://gitee.com/lzpeng723/csdn-exam.git csdn-mockexam-c4-javabase-answer
 ```
 
 ## 2 docker-compose 方式运行
