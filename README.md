@@ -18,13 +18,13 @@
   计算机通识（占比15～25%）、程序逻辑（占比20～30%）、Web基础（占比30～40%）、算法和Web综合（占比15～25%），共44题，时长100分钟
   - [报名链接](https://ac.csdn.net/c1outline.html)
   - [模拟考试链接](https://ks.csdn.net/mock-testing)
-  - [模拟考试试题](https://github.com/lzpeng723/csdn-mockexam/tree/c1-exam)
-  - [参考答案](https://github.com/lzpeng723/csdn-mockexam/tree/c1-answer)
+  - [模拟考试试题](https://github.com/lzpeng723/csdn-exam/tree/c1-exam)
+  - [参考答案](https://github.com/lzpeng723/csdn-exam/tree/c1-answer)
 
 - Java-工程师基础能力-认证-C4
   - [报名链接](https://ac.csdn.net/c4outline.html?active=0)
-  - [模拟考试试题](https://github.com/lzpeng723/csdn-mockexam/tree/c4-javabase-mockexam)
-  - [参考答案](https://github.com/lzpeng723/csdn-mockexam/tree/c4-javabase-mockexam-answer)
+  - [模拟考试试题](https://github.com/lzpeng723/csdn-exam/tree/c4-javabase-mockexam)
+  - [参考答案](https://github.com/lzpeng723/csdn-exam/tree/c4-javabase-mockexam-answer)
 - Python-工程师基础能力-认证-C4
   - [报名链接](https://ac.csdn.net/c4outline.html?active=2)
   - 参考答案 更新中...
@@ -33,8 +33,8 @@
   - 参考答案 更新中...
 - Java-工程师项目能力-认证-C4
   - [报名链接](https://ac.csdn.net/c4outline.html?active=1)
-  - [模拟考试试题](https://github.com/lzpeng723/csdn-mockexam/tree/c4-javaproject-mockexam)
-  - [参考答案](https://github.com/lzpeng723/csdn-mockexam/tree/c4-javaproject-mockexam-answer)
+  - [模拟考试试题](https://github.com/lzpeng723/csdn-exam/tree/c4-javaproject-mockexam)
+  - [参考答案](https://github.com/lzpeng723/csdn-exam/tree/c4-javaproject-mockexam-answer)
 - Python-工程师项目能力-认证-C4
   - [报名链接](https://ac.csdn.net/c4outline.html?active=3)
   - 参考答案 更新中...
