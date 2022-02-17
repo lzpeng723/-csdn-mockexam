@@ -9,9 +9,15 @@ Idea
 ## 1 下载源码
 
 ```bash
-git clone -b c4-javabase-exam-answer git@github.com:lzpeng723/csdn-mockexam.git csdn-exam-c4-javabase-answer
+# 通过 github
+git clone -b c4-javabase-exam-answer git@github.com:lzpeng723/csdn-exam.git csdn-exam-c4-javabase-answer
 OR
-git clone -b c4-javabase-exam-answer https://github.com/lzpeng723/csdn-mockexam.git csdn-exam-c4-javabase-answer
+git clone -b c4-javabase-exam-answer https://github.com/lzpeng723/csdn-exam.git csdn-exam-c4-javabase-answer
+
+# 通过 gitee
+git clone -b c4-javabase-exam-answer git@gitee.com:lzpeng723/csdn-exam.git csdn-exam-c4-javabase-answer
+OR
+git clone -b c4-javabase-exam-answer https://gitee.com/lzpeng723/csdn-exam.git csdn-exam-c4-javabase-answer
 ```
 
 ## 2 编译方式运行
