@@ -1,4 +1,4 @@
-# element-plus-vite-starter
+# element-plus-vite-router-vuex-starter
 
 > A starter kit for Element Plus with Vite
 
@@ -27,15 +27,15 @@ npm run dev
 ### Compiles and minifies for production
 
 ```bash
-npm run build
+npm run build:prod
 ```
 
 ## Usage
 
 ```bash
-git clone https://github.com/element-plus/element-plus-vite-starter
-cd element-plus-vite-starter
-npm i
+git clone https://github.com/lzpeng723/element-plus-vite-router-vuex-starter.git
+cd element-plus-vite-router-vuex-starter
+npm install
 npm run dev
 ```
 
