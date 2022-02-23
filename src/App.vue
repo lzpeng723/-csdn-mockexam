@@ -1,13 +1,17 @@
 <template>
-  <BaseHeader />
-  <img alt="Vue logo" class="element-plus-logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3.0 + Element Plus + Vite" />
+  <div>
+    <!--使用 router-link 组件进行导航 -->
+    <!--通过传递 `to` 来指定链接 -->
+    <!--`<router-link>` 将呈现一个带有正确 `href` 属性的 `<a>` 标签-->
+    <router-link to="/home">Go to Home</router-link>
+    <pre style="display: inline">             </pre>
+    <router-link to="/about">Go to About</router-link>
+  </div>
+  <!-- 路由出口 -->
+  <!-- 路由匹配到的组件将渲染在这里 -->
+  <router-view></router-view>
 </template>
 
-<script setup lang="ts">
-import BaseHeader from "./components/layouts/BaseHeader.vue";
-import HelloWorld from "./components/HelloWorld.vue";
-</script>
 
 <style>
 #app {
@@ -16,8 +20,5 @@ import HelloWorld from "./components/HelloWorld.vue";
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-.element-plus-logo {
-  width: 50%;
 }
 </style>
