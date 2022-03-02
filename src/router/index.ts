@@ -8,16 +8,23 @@ import {createRouter, createWebHashHistory, createWebHistory} from 'vue-router'
 const routes = [
     {
         path: '/',
-        redirect:  '/home'
+        redirect: '/resume'
     },
     {
         path: '/home',
-        component: () => import("~/components/Home.vue")
+        component: () => import("~/views/Main.vue"),
+        children: [
+            {
+                path: '/resume',
+                component: () => import("~/views/Resume.vue")
+            },
+            {
+                path: '/about',
+                component: () => import("~/components/About.vue")
+            }
+        ]
     },
-    {
-        path: '/about',
-        component: () => import("~/components/About.vue")
-    }
+
 ]
 
 // 3. 创建路由实例并传递 `routes` 配置
