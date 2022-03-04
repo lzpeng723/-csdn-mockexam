@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    # docker run --name csdn-tasking-javaproject-mysql -e MYSQL_DATABASE="csdn-tasking-javaproject" -e MYSQL_USER="csdn-tasking-javaproject" -e MYSQL_PASSWORD="csdn-tasking-javaproject" -e MYSQL_RANDOM_ROOT_PASSWORD=yes -d -p 3306:3306 mysql
+    url: jdbc:mysql://db:3306/csdn-tasking-javaproject?useUnicode=true&characterEncoding=UTF8&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true
+    username: csdn-tasking-javaproject
+    password: csdn-tasking-javaproject
+    # 使用阿里的 Druid 数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect # 如不设置默认使用MyISAM引擎，将不能创建外键
+    generate-ddl: true
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+#      naming:
+#        physical-strategy: com.lzpeng.framework.domain.LzpengPhysicalNamingStrategy
+    properties:
+      hibernate:
+        format_sql: false
+        use_sql_comments: true
+  sql:
+    init:
+      mode: always
