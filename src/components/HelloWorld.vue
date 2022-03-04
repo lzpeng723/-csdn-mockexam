@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import {ref} from "vue"
+import {ref} from 'vue'
 import {ElMessage} from 'element-plus'
 
 defineProps<{ msg: string }>();
 
 const count = ref(0);
-const input = ref("element-plus");
+const input = ref('element-plus');
 
 const curDate = ''
 

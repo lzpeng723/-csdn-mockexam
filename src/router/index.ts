@@ -8,26 +8,30 @@ import {createRouter, createWebHashHistory, createWebHistory} from 'vue-router'
 const routes = [
     {
         path: '/',
-        redirect: '/resume'
+        redirect: '/resumeList'
     },
     {
         path: '/home',
         component: () => import("~/views/Main.vue"),
         children: [
             {
-                path: '/resume',
+                path: '/resume/:id',
+                name: 'resume',
                 component: () => import("~/views/Resume.vue")
             },
             {
                 path: '/resumeList',
+                name: 'resumeList',
                 component: () => import("~/views/resumeList.vue")
             },
             {
                 path: '/xss',
+                name: 'xss',
                 component: () => import("~/views/XSS.vue")
             },
             {
                 path: '/about',
+                name: 'about',
                 component: () => import("~/views/About.vue")
             }
         ]

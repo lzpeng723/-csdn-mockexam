@@ -16,12 +16,14 @@
   "dependencies": {
     "axios": "^0.26.0",
     "element-plus": "^2.0.2",
+    "qs": "^6.10.3",
     "vue": "^3.2.31",
     "vue-router": "^4.0.12",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@types/node": "*",
+    "@types/qs": "^6.9.7",
     "@vitejs/plugin-vue": "^2.2.2",
     "@vue/compiler-sfc": "^3.2.31",
     "sass": "^1.49.8",

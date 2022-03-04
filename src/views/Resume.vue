@@ -1,7 +1,9 @@
 <script lang="ts" setup>
-import {ref, reactive} from "vue"
+import {ref, reactive} from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import type {ElForm, ElTable} from 'element-plus'
-import axios from "~/utils/request"
+import {ElMessage} from 'element-plus'
+import axios from '~/utils/request'
 
 type FormInstance = InstanceType<typeof ElForm>
 const ruleFormRef = ref<FormInstance>()
@@ -127,23 +129,28 @@ const rules = reactive({
 })
 
 const activeNames = ref(['1', '2', '3', '4']);
+const disabledForm = ref(false);
 
 const disabledDate = (time: Date) => {
   return time.getTime() > Date.now()
 }
 
+const router = useRouter()
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (valid) {
       axios.post('/user', ruleForm)
           .then(res => {
-            console.log(res)
+            ElMessage({
+              message: '提交成功',
+              type: 'success',
+            })
+            router.push({path: '/resumeList'})
           })
-          .catch(res => {
-            console.log(res)
+          .catch(err => {
+            ElMessage.error(`提交失败: ${err.message}`)
           })
-      console.log(ruleForm)
     } else {
       console.log('error submit!')
       return false
@@ -178,7 +185,19 @@ const removeEntry = <T>(list: T[], removeData: T[]) => {
   }
 }
 
+const route = useRoute()
 
+const resumeId = route.params.id
+if (resumeId !== 'new') {
+  axios.get(`/user/${resumeId}`)
+      .then(res => {
+        Object.assign(ruleForm, res.data)
+        disabledForm.value = true
+      })
+      .catch(res => {
+        console.log(res)
+      })
+}
 </script>
 
 <template>
@@ -187,6 +206,7 @@ const removeEntry = <T>(list: T[], removeData: T[]) => {
       ref="ruleFormRef"
       :model="ruleForm"
       :rules="rules"
+      :disabled="disabledForm"
   >
     <el-collapse v-model="activeNames">
       <el-collapse-item title="基本信息" name="1">

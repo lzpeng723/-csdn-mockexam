@@ -5,7 +5,7 @@
   </pre>
 </template>
 <script lang="ts" setup>
-import {ref} from "vue"
+import {ref} from 'vue'
 
 const env = ref(JSON.stringify(import.meta.env, null, '\t'));
 </script>
