@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="13px" height="22px" viewBox="0 0 13 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>steparrow</title>
+    <g id="打卡规则设置（element）后端2.0" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
+        <g id="3新建规则-新建时间选项【已完成】" transform="translate(-714.000000, -254.000000)" stroke="#C0C4CC">
+            <g id="弹框" transform="translate(340.000000, 162.000000)">
+                <g id="编组-3" transform="translate(55.000000, 80.000000)">
+                    <g id="steparrow" transform="translate(319.000000, 12.000000)">
+                        <line x1="1" y1="1" x2="11.320158" y2="10.4601448" id="直线" transform="translate(6.160079, 5.730072) rotate(2.489553) translate(-6.160079, -5.730072) "></line>
+                        <line x1="1" y1="11" x2="11.320158" y2="20.4601448" id="直线" transform="translate(6.160079, 15.730072) scale(1, -1) rotate(2.489553) translate(-6.160079, -15.730072) "></line>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

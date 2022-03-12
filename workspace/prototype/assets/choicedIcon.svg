@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>choicedIcon</title>
+    <g id="打卡规则设置（element）后端2.0" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="12打卡规则-编辑人员/查看人员【已完成】" transform="translate(-484.000000, -353.000000)">
+            <g id="弹框" transform="translate(430.000000, 111.000000)">
+                <g id="left" transform="translate(20.000000, 135.000000)">
+                    <g id="choicedIcon" transform="translate(34.000000, 107.000000)">
+                        <rect id="矩形" stroke="#409EFF" fill="#409EFF" x="0.5" y="0.5" width="13" height="13" rx="2"></rect>
+                        <polygon id="icon_select" fill="#FFFFFF" points="11.0440126 3 5.70677336 8.2607888 2.95598742 5.5492998 2 6.49171192 5.70677336 10.1448985 12 3.94169763"></polygon>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

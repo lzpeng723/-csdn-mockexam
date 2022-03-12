@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>stepfinishedIcon</title>
+    <g id="打卡规则设置（element）后端2.0" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="7新建规则-新建时间选项-按日期设置（不上班）【已完成】" transform="translate(-487.000000, -256.000000)" stroke="#52C41A">
+            <g id="弹框" transform="translate(340.000000, 162.000000)">
+                <g id="编组-3" transform="translate(55.000000, 80.000000)">
+                    <g id="stepfinishedIcon" transform="translate(92.000000, 14.000000)">
+                        <circle id="椭圆形" stroke-width="2" cx="8" cy="8" r="7"></circle>
+                        <line x1="4.5133341" y1="8.48154241" x2="7.00948498" y2="10.145643" id="直线-4" stroke-linecap="square" transform="translate(5.761410, 9.313593) rotate(6.309932) translate(-5.761410, -9.313593) "></line>
+                        <line x1="6.89886785" y1="6.3521877" x2="11.8911696" y2="9.68038888" id="直线-4" stroke-linecap="square" transform="translate(9.395019, 8.016288) scale(-1, 1) rotate(11.309932) translate(-9.395019, -8.016288) "></line>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
