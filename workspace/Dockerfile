@@ -8,9 +8,9 @@ COPY ./project /home/maven/project
 RUN mvn package
 
 
-# 基础镜像使用openjdk:8-jdk-alpine
-FROM openjdk:8-jdk-alpine
-# 将jar包添加到容器中并更名为app.jar
+# 基础镜像使用java:8
+FROM java:8
+# 将jar包添加到容器中
 COPY --from=build /home/maven/project/target/c4p-check.jar /home/java/project/c4p-check.jar
 # 暴漏端口
 EXPOSE 8080
