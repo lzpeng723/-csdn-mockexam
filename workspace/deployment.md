@@ -20,4 +20,4 @@ cd c4-javaproject-mockexam-answer/workspace
 docker-compose up -d
 ```
 
-然后浏览器打开 http://localhost:8183/csdn-mockexam-c4-javabase
+然后浏览器打开 http://localhost:8183
