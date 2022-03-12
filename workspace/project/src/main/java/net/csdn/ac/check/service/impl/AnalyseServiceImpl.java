@@ -40,19 +40,21 @@ public class AnalyseServiceImpl extends BaseObject implements AnalyseService {
     /**
      * 工作开始时间
      */
-    @Value("${work.startTime:上午09:00}")
+    //@Value("${work.startTime:上午09:00}")
     private LocalTime workStartTime;
     /**
      * 工作结束时间
      */
-    @Value("${work.endTime:下午06:00}")
+    //@Value("${work.endTime:下午06:00}")
     private LocalTime workEndTime;
 
     private long workHours;
 
     @PostConstruct
     private void init() {
-        this.workHours = ChronoUnit.HOURS.between(workStartTime, workEndTime);
+        this.workStartTime = LocalTime.of(9,0);
+        this.workEndTime = LocalTime.of(18,0);
+        this.workHours = ChronoUnit.HOURS.between(this.workStartTime, this.workEndTime);
     }
 
     /**

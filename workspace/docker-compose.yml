@@ -29,7 +29,7 @@ services:
       - '3306:3306'
 
   redis:
-    image: redis
+    image: redis:7.0-rc2
     container_name: c4_redis
     ports:
       - '6379:6379'
