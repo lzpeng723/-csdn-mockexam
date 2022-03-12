@@ -16,4 +16,4 @@ COPY --from=build /home/maven/project/target/c4p-check.jar /home/java/project/c4
 EXPOSE 8080
 # 运行jar包
 # 覆盖ENTRYPOINT: docker run --name workspace_back_end_001 -it --entrypoint /bin/sh workspace_back_end
-ENTRYPOINT ["java","-Dfile.encoding=UTF-8","-Duser.timezone=GMT+8","-Djava.security.egd=file:/dev/./urandom","-jar","/home/java/project/c4p-check.jar"]
+ENTRYPOINT ["java","-Dfile.encoding=UTF-8","-Duser.timezone=Asia/Shanghai","-Djava.security.egd=file:/dev/./urandom","-jar","/home/java/project/c4p-check.jar"]

@@ -78,6 +78,7 @@ public class AnalyseServiceImpl extends BaseObject implements AnalyseService {
         Map<Long, Map<String, Object>> userRuleAndAddress = getUserRuleAndAddress(userIdList);
         Map<Long, Map<String, Object>> userRecordStatistics = getUserRecordStatistics(userIdList, startDate, endDate, userRuleAndAddress);
         List<Map<String, Object>> userRuleList = new ArrayList<>(userRuleAndAddress.values());
+        userRuleList.removeIf(userRule -> userRecordStatistics.get(userRule.get("user_id")) == null);
         for (Map<String, Object> userRule : userRuleList) {
             userRule.remove("address_ids");
             userRule.remove("rule_id");
@@ -126,6 +127,9 @@ public class AnalyseServiceImpl extends BaseObject implements AnalyseService {
         sb.append(";");
         //noinspection unchecked
         List<Map<String, Object>> userRecordList = mySQLDao.find(sb.toString(), params, new MapRowMapper());
+        if (userRecordList == null || userRecordList.isEmpty()) {
+            return Collections.emptyMap();
+        }
         // 按用户id和签到日期进行分组
         Map<Integer, Map<LocalDate, List<Map<String, Object>>>> userRecordGroupByUserAndCheckTime = userRecordList.stream().collect(Collectors.groupingBy(userRecord -> (Integer) userRecord.get("user_id"), Collectors.groupingBy(userRecord -> {
             Integer checkTime = (Integer) userRecord.get("check_time");
