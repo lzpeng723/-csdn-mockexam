@@ -1,7 +1,10 @@
 version: '3.1'
 services:
+
     redis:
-        image: 'redis:alpine'
+      image: 'redis:alpine'
+      ports:
+        - '6379:6379'
 
     frontend:
       image: 'nginx:alpine'
@@ -12,3 +15,24 @@ services:
       ports:
         - '9528:80'
 
+    mysql57:
+      image: mysql:5.7
+      container_name: c4_mysql57
+      environment:
+        # MYSQL_DATABASE: content
+        MYSQL_ROOT_PASSWORD: c4_project_exam
+      restart: always
+      volumes:
+        - './database.sql:/docker-entrypoint-initdb.d/init.sql'
+      ports:
+        - '3306:3306'
+    
+    # 后端服务
+    back_server:
+      build: .
+      restart: always
+      ports:
+        - 8080:8080
+      depends_on:
+        - mysql57
+        - redis

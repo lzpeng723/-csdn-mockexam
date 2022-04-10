@@ -1,0 +1,6 @@
+.idea
+*.iml
+**/.mvn
+**/build
+**/target
+!**/target/*.jar

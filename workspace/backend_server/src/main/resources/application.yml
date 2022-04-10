@@ -1,0 +1,12 @@
+server:
+  port: 8080
+  shutdown: graceful # 开启优雅停机,默认IMMEDIATE是立即关机 https://juejin.im/post/5ec1d89de51d454ddf2367ab
+spring:
+  profiles:
+    active: actuator, mysql, redis, logging, csdn
+  application:
+    name: csdn-c4-project # 主模块 必须写横杠,不能写下划线
+  jackson:
+    # org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration.Jackson2ObjectMapperBuilderCustomizerConfiguration.StandardJackson2ObjectMapperBuilderCustomizer.configurePropertyNamingStrategyField
+    property-naming-strategy: SNAKE_CASE
+    date-format: "YYYY-MM-dd HH:mm:ss"

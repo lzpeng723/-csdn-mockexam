@@ -1,0 +1,5 @@
+## csdn config
+csdn:
+  inner-field-name: _id,created_time,updated_time,created_by,updated_by
+  worker-id: 1
+  data-center-id: 1
