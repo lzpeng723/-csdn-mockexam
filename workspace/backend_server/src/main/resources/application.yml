@@ -10,3 +10,6 @@ spring:
     # org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration.Jackson2ObjectMapperBuilderCustomizerConfiguration.StandardJackson2ObjectMapperBuilderCustomizer.configurePropertyNamingStrategyField
     property-naming-strategy: SNAKE_CASE
     date-format: "YYYY-MM-dd HH:mm:ss"
+  mvc:
+    servlet:
+      load-on-startup: 1

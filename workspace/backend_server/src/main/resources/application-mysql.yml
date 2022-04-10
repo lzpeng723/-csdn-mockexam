@@ -5,6 +5,8 @@ spring:
     password: c4_project_exam
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      minimum-idle: 5
   jpa:
     database-platform: net.csdn.ac.c4.exam.config.MysqlConfig # 如不设置默认使用MyISAM引擎，将不能创建外键
     generate-ddl: true
