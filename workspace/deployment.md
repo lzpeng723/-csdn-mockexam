@@ -2,13 +2,22 @@
 
 ```bash
 
-git clone https://oauth2:YqxXyNqrxCzxJo8yYFkL@gitcode.net/exam-rooms/c4-project-java/22033102002111851648706420.git csdn-exam-c4-javaproject
+# 通过 github
+git clone -b c4-javaproject-exam-answer git@github.com:lzpeng723/csdn-exam.git c4-javaproject-exam-answer
+OR
+git clone -b c4-javaproject-exam-answer https://github.com/lzpeng723/csdn-exam.git c4-javaproject-exam-answer
+
+
+# 通过 gitee
+git clone -b c4-javaproject-exam-answer git@gitee.com:lzpeng723/csdn-exam.git c4-javaproject-exam-answer
+OR
+git clone -b c4-javaproject-exam-answer https://gitee.com/lzpeng723/csdn-exam.git c4-javaproject-exam-answer
 ```
 
-## 启动
+## docker-compose 方式启动
 
 ```bash
-cd csdn-exam-c4-javaproject/workspace
+cd c4-javaproject-exam-answer/workspace
 docker-compose up -d --build
 ```
 
